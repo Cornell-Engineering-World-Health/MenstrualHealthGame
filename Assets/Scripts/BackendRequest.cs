@@ -7,76 +7,85 @@ public class BackendRequest : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        StartCoroutine(GetRequest("http://localhost:3000/api/quiz/"));
+        //GetRequestExample();
 
+        //PostRequestExample();
 
-
-        //StartCoroutine(PostRequest("http://localhost:3000/api/quiz/"));
+        PutRequestExample();
     }
 
-    IEnumerator PostRequest(string uri, WWWForm data)
+    void PutRequestExample()
+    {
+        WWWForm form = new WWWForm();
+        string id = "5dd807a8205214432d80ed77";
+        form.AddField("answer", "20");
+        form.AddField("points", 0);
+        StartCoroutine(PutRequest("http://localhost:3000/api/quiz/" + id, form));
+    }
+
+    void GetRequestExample()
+    {
+        StartCoroutine(GetRequest("http://localhost:3000/api/quiz/"));
+    }
+
+    void PostRequestExample()
+    {
+        WWWForm form = new WWWForm();
+        form.AddField("question", "What is 5 * 5?");
+        form.AddField("answer", "25");
+        form.AddField("points", 1);
+        StartCoroutine(PostRequest("http://localhost:3000/api/quiz/", form));
+    }
+
+    IEnumerator PostRequest(string uri, WWWForm data) //POST REQUEST
     {
         using (UnityWebRequest www = UnityWebRequest.Post(uri, data))
         {
             yield return www.SendWebRequest();
 
-            if(www.isNetworkError || www.isHttpError)
+            if(www.isNetworkError || www.isHttpError) 
             {
                 Debug.Log(www.error);
             }
             else
             {
-                Debug.Log("Post complete");
+                Debug.Log("POST complete");
             }
-
         }
     }
 
-    IEnumerator GetRequest(string uri)
+    IEnumerator GetRequest(string uri) //GET REQUEST
     { 
         using (UnityWebRequest webRequest = UnityWebRequest.Get(uri))
         {
             yield return webRequest.SendWebRequest();
-            string[] pages = uri.Split('/');
-            int page = pages.Length - 1;
+
             if (webRequest.isNetworkError)
             {
-                Debug.Log(pages[page] + ": Error: " + webRequest.error);
+                Debug.Log("Error: " + webRequest.error);
             }
             else
             {
-                string data = webRequest.downloadHandler.text;
-                Debug.Log(pages[page] + ":\nReceived: " + data);
+                string data = webRequest.downloadHandler.text; //string representation of data
+                Debug.Log("Received: " + data);
             }
         }
     }
 
-    /*
-    Hashtable ParseRequest(string data)
-    {
-        string[] items = data.Split('}');
-        foreach(string item in items)
+    IEnumerator PutRequest(string uri, WWWForm data) //PUT REQUEST
+    { 
+        using (UnityWebRequest www = UnityWebRequest.Put(uri, data.ToString()))
         {
-            string key = item.Substring(item.IndexOf(':') + 2);
-            key = key.Substring(0, key.IndexOf('"'));
+            yield return www.SendWebRequest();
 
-            //float score = item
+            if (www.isNetworkError || www.isHttpError)
+            {
+                Debug.Log(www.error);
+            }
+            else
+            {
+                Debug.Log("PUT complete");
+            }
         }
     }
-
-    private class Data
-    {
-        string question, answer;
-        float score;
-
-        Data(string quest, string ans, float score)
-        {
-            question = quest;
-            answer = ans;
-            this.score = score;
-        }
-    }
-    */
-        
 }
-//[{"_id":"5dd80809205214432d80ed78","points":10,"answer":"25","question":"What is 5 * 5?","__v":0},{"_id":"5dd8081f205214432d80ed79","points":0,"answer":"55","question":"What is 11 * 5?","__v":0}]
