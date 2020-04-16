@@ -1,0 +1,13 @@
+{
+    "method": "POST",
+    "url": "https://dev-mhs.auth0.com/oauth/token",
+    "headers": {
+        "Content-Type": "application/json"
+    },
+    "body": {
+        "client_id": "eLsGpX1YtQINhfUUhxbGOMID7RaNT73X",
+        "client_secret": "5Jzru-kiAcsA5Dyx-QWnbAoU9TlgR2_P-xC3LsjAX2pM1UQ-G5mBs93eOsbfgNTz",
+        "audience": "https://mhs-api",
+        "grant_type": "client_credentials"
+    }
+}
