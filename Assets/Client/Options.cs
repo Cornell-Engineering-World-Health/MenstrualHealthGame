@@ -1,4 +1,6 @@
 ﻿using System;
+
+// key schema
 [Serializable]
 public class Options
 {
@@ -16,6 +18,7 @@ public class Body
 	public string grant_type;
 }
 
+// token schema
 [Serializable]
 public class Token
 {
@@ -24,11 +27,13 @@ public class Token
     public string token_type;
 }
 
+// Data generic super class
 [Serializable]
 public class Data
 {
 }
 
+// Progress schema
 [Serializable]
 public class Progress : Data
 {

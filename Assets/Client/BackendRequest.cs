@@ -11,18 +11,14 @@ public class BackendRequest : MonoBehaviour
     Options options;
 
     void Start()
-    {
-        Debug.Log("testA");
-
-        
-        
+    {   
         string raw_data = "{\"user_id\":\"42\",\"question_id\":\"324\",\"correct\":false,\"attempt_num\":2}";
 
-        Data data = JsonUtility.FromJson<Progress>(raw_data);
+        Data data = JsonUtility.FromJson<Progress>(raw_data); // declares a Progress object
 
         request("progress", this.POST, data); 
 
-        request("progress", this.GET); // example get request 
+        request("progress", this.GET); 
     }
 
     /** request to backend at endpoint */
@@ -32,7 +28,7 @@ public class BackendRequest : MonoBehaviour
         this.StartCoroutine(this.GetKey(options, endpoint, method));
     }
 
-    /** request to backend at endpoint with data*/
+    /** request to backend at endpoint with data as an object */
     void request(string endpoint, Action<string, string, string> method, Data data) // request for POST methods with Data object
     {
         options = getOptions("./Assets/Client/key.json");
@@ -40,7 +36,7 @@ public class BackendRequest : MonoBehaviour
         this.StartCoroutine(this.GetKey(options, endpoint, method, req));
     }
 
-    /** request to backend at endpoint with data */
+    /** request to backend at endpoint with data as a string */
     void request(string endpoint, Action<string, string, string> method, string data) // request for POST methods with Data string
     {
         options = getOptions("./Assets/Client/key.json");
